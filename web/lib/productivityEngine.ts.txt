@@ -1,0 +1,38 @@
+/**
+ * SYNAPSE CORE LOGIC ENGINE
+ */
+
+// 1. SMART AUTOMATION: Check if a task is "Stale"
+export const checkTaskStaleness = (lastOpenedDate: string, threshold: number = 5) => {
+    const lastDate = new Date(lastOpenedDate).getTime();
+    const today = new Date().getTime();
+    const diffDays = Math.ceil((today - lastDate) / (1000 * 60 * 60 * 24));
+    
+    return {
+        isStale: diffDays >= threshold,
+        daysInactive: diffDays
+    };
+};
+
+// 2. PREDICTIVE ANALYTICS: Burnout Detection
+export const calculateBurnoutRisk = (activeTaskCount: number, meetingHours: number) => {
+    const isOverloaded = activeTaskCount > 8 || meetingHours > 6;
+    return {
+        riskLevel: isOverloaded ? "HIGH" : "LOW",
+        message: isOverloaded ? "⚠️ Warning: Schedule Density Critical." : "Healthy load."
+    };
+};
+
+// 3. GAMIFICATION: EXP Calculation
+export const addExp = (currentExp: number, currentLevel: number) => {
+    const GAIN = 50;
+    const NEXT_LEVEL = 1000;
+    let newExp = currentExp + GAIN;
+    let newLevel = currentLevel;
+
+    if (newExp >= NEXT_LEVEL) {
+        newLevel++;
+        newExp = 0;
+    }
+    return { newExp, newLevel };
+};

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/workspace_bg">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Block"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif-black"
+        android:textColor="@color/text_primary"
+        android:layout_marginBottom="16dp"/>
+
+    <LinearLayout
+        android:id="@+id/btn_add_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_edit" android:tint="@color/text_secondary"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Header" android:layout_marginStart="16dp" android:textColor="@color/text_primary"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_add_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_sort_alphabetically" android:tint="@color/text_secondary"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Text" android:layout_marginStart="16dp" android:textColor="@color/text_primary"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_add_todo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/checkbox_on_background" android:tint="@color/text_secondary"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="To-do List" android:layout_marginStart="16dp" android:textColor="@color/text_primary"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_add_finance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_save" android:tint="@color/text_secondary"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Finance Record" android:layout_marginStart="16dp" android:textColor="@color/text_primary"/>
+    </LinearLayout>
+
+</LinearLayout>

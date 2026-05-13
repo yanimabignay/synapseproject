@@ -1,0 +1,34 @@
+{
+  "project_info": {
+    "project_number": "1234567890",
+    "project_id": "synapse-placeholder",
+    "storage_bucket": "synapse-placeholder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1234567890:android:abc123def456",
+        "android_client_info": {
+          "package_name": "com.hm.synapse"
+        }
+      },
+      "authentication_info": {
+        "google_id_token_expiration": 0
+      },
+      "api_key": [
+        {
+          "current_key": "AIzaSyPlaceholderKey"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,24 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. Using DayNight to support both Light and Reverted Dark mode. -->
+    <style name="Theme.Synapse" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/workspace_bg</item>
+        <item name="android:statusBarColor">@color/workspace_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+        
+        <!-- Primary brand color (Buttons) -->
+        <item name="colorPrimary">@color/brand_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        
+        <!-- Background color -->
+        <item name="android:colorBackground">@color/workspace_bg</item>
+        <item name="colorSurface">@color/workspace_bg</item>
+        
+        <!-- Text color -->
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+
+        <!-- Navigation Bar -->
+        <item name="android:navigationBarColor">@color/nav_bar_bg</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+    </style>
+</resources>

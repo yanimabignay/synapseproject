@@ -1,0 +1,20 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.Synapse" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Modern Slate Palette -->
+        <item name="android:windowBackground">@color/workspace_bg</item>
+        <item name="android:statusBarColor">@color/workspace_bg</item>
+        <item name="android:windowLightStatusBar">false</item>
+        
+        <item name="colorPrimary">@color/brand_primary</item>
+        <item name="colorOnPrimary">@color/workspace_bg</item>
+        <item name="colorSurface">@color/card_bg</item>
+        <item name="colorSurfaceVariant">@color/accent_charcoal</item>
+        <item name="android:colorBackground">@color/workspace_bg</item>
+        
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+
+        <item name="android:navigationBarColor">@color/nav_bar_bg</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+    </style>
+</resources>
