@@ -367,6 +367,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupAxonAI() {
         String apiKey = BuildConfig.GEMINI_API_KEY;
+
         try {
             GenerativeModel gm = new GenerativeModel("gemini-3.1-flash-lite-preview", apiKey);
             axonModel = GenerativeModelFutures.from(gm);
