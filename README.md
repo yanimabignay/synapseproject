@@ -1,1 +1,1 @@
-# synapseproject
+# Synapseproject
