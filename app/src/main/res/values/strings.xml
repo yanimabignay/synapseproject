@@ -2,8 +2,8 @@
     <string name="app_name">Synapse</string>
     <string name="axon_name">Axon</string>
     <string name="ask_axon">Ask Axon</string>
-    <string name="axon_hub">Axon Hub</string>
-    <string name="axon_pulse">Axon Pulse</string>
+    <string name="axon_hub">Workspace Hub</string>
+    <string name="axon_pulse">Finance Pulse</string>
     
     <!-- Level Names -->
     <string name="lvl1_name">Beginner</string>
@@ -14,30 +14,32 @@
 
     <string name="nav_hub">Hub</string>
     <string name="nav_board">Board</string>
-    <string name="nav_finance">Pulse</string>
+    <string name="nav_finance">Finance</string>
+    <string name="nav_templates">Templates</string>
     <string name="nav_system">System</string>
 
     <!-- UI Labels -->
-    <string name="neural_ledger">Neural Ledger</string>
-    <string name="neural_flow">Neural Flow</string>
-    <string name="core_config">Core Config</string>
-    <string name="neural_balance">Neural Balance</string>
+    <string name="finance_ledger">Finance Ledger</string>
+    <string name="workflow_board">Workflow Board</string>
+    <string name="system_config">System Configuration</string>
+    <string name="account_balance">Account Balance</string>
     <string name="default_balance">$0.00</string>
     <string name="placeholder_level">Lvl 1 Beginner</string>
     <string name="placeholder_templates">Templates: Locked</string>
-    <string name="synapse_engine">Synapse Engine</string>
+    <string name="synapse_engine">Synapse Core</string>
     <string name="appearance">Appearance</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_auto">Auto</string>
     <string name="administration">Administration</string>
     <string name="database_management">Database Management</string>
-    <string name="neural_automation">Neural Automation</string>
-    <string name="staleness_threshold">Staleness Highlight Threshold</string>
+    <string name="process_automation">Process Automation</string>
+    <string name="activity_threshold">Activity Highlight Threshold</string>
     <string name="threshold_2d">2d</string>
     <string name="threshold_5d">5d</string>
     <string name="threshold_7d">7d</string>
     <string name="terminate_session">Terminate Session</string>
-    <string name="neural_load_alert">Neural load heavy. Take five.</string>
-    <string name="finance">finance</string>
+    <string name="workload_alert">System load high. Please take a break.</string>
+    
+    <string name="templates_coming_soon">Templates Coming Soon</string>
 </resources>

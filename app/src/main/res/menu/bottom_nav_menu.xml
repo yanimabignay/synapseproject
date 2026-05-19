@@ -3,17 +3,21 @@
     <item
         android:id="@+id/nav_tasks"
         android:icon="@android:drawable/ic_menu_agenda"
-        android:title="Tasks" />
+        android:title="@string/nav_hub" />
     <item
         android:id="@+id/nav_kanban"
         android:icon="@android:drawable/ic_dialog_dialer"
-        android:title="Board" />
+        android:title="@string/nav_board" />
     <item
         android:id="@+id/nav_finance"
         android:icon="@android:drawable/ic_menu_save"
-        android:title="Finance" />
+        android:title="@string/nav_finance" />
+    <item
+        android:id="@+id/nav_templates"
+        android:icon="@android:drawable/ic_menu_set_as"
+        android:title="@string/nav_templates" />
     <item
         android:id="@+id/nav_settings"
         android:icon="@android:drawable/ic_menu_preferences"
-        android:title="Settings" />
+        android:title="@string/nav_system" />
 </menu>

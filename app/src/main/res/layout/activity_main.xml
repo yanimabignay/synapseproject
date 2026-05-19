@@ -20,7 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -49,12 +48,12 @@
                 app:icon="@android:drawable/btn_star_big_on" />
         </RelativeLayout>
 
-        <!-- Neural Balance Card -->
-
+        <!-- Balance Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/financeSummaryCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:visibility="gone"
             app:cardBackgroundColor="@color/card_bg"
             app:cardCornerRadius="16dp"
@@ -72,11 +71,11 @@
                     android:layout_weight="1"
                     android:alpha="0.7"
                     android:fontFamily="sans-serif-medium"
-                    android:text="@string/neural_balance"
+                    android:text="@string/account_balance"
                     android:textColor="@color/text_primary" />
 
                 <TextView
-                    android:id="@+id/tv_finance_total"
+                    android:id="@+id/tvFinanceTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-black"
@@ -118,13 +117,8 @@
                 android:text="@string/placeholder_templates"
                 android:textColor="@color/text_primary"
                 android:textSize="11sp" />
-
         </LinearLayout>
     </LinearLayout>
-
-    <!-- Navigation Divider -->
-
-    <!-- Content Viewport -->
 
     <View
         android:id="@+id/navDivider"
@@ -150,20 +144,88 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingHorizontal="16dp"
-            android:paddingBottom="250dp" />
+            android:paddingBottom="80dp" />
+
+        <!-- AI Window -->
+        <LinearLayout
+            android:id="@+id/axonAiContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="gone">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/axonResponseText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:text="Ask Axon anything about your workspace..."/>
+            </ScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <EditText
+                    android:id="@+id/axonInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Type your prompt..."
+                    android:background="@drawable/bg_input_field"
+                    android:padding="12dp" />
+                <ImageButton
+                    android:id="@+id/btnSendAxon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@android:drawable/ic_menu_send"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/brand_primary" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Templates coming soon -->
+        <RelativeLayout
+            android:id="@+id/templatesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@android:drawable/ic_lock_lock"
+                android:alpha="0.05"
+                android:scaleType="centerCrop"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/templates_coming_soon"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/text_primary"/>
+        </RelativeLayout>
 
         <ScrollView
             android:id="@+id/settingsContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">
-
+            <!-- Existing settings content -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="24dp">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -172,7 +234,6 @@
                     android:textColor="@color/text_primary"
                     android:textSize="22sp" />
 
-                <!-- Appearance Section -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -191,30 +252,9 @@
                     android:layout_marginTop="12dp"
                     app:selectionRequired="true"
                     app:singleSelection="true">
-
-                    <Button
-                        android:id="@+id/btnLightTheme"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/theme_light" />
-
-                    <Button
-                        android:id="@+id/btnDarkTheme"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/theme_dark" />
-
-                    <Button
-                        android:id="@+id/btnSystemTheme"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/theme_auto" />
+                    <Button android:id="@+id/btnLightTheme" style="?attr/materialButtonOutlinedStyle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/theme_light" />
+                    <Button android:id="@+id/btnDarkTheme" style="?attr/materialButtonOutlinedStyle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/theme_dark" />
+                    <Button android:id="@+id/btnSystemTheme" style="?attr/materialButtonOutlinedStyle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/theme_auto" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
                 <TextView
@@ -237,63 +277,6 @@
                     android:padding="16dp"
                     android:text="@string/database_management"
                     app:icon="@android:drawable/ic_menu_edit" />
-
-                <Button
-                    android:id="@+id/btn_reset_onboarding"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Debug: Reset Onboarding"
-                    android:textColor="#3B82F6"
-                    app:icon="@android:drawable/ic_menu_revert" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:alpha="0.7"
-                    android:fontFamily="sans-serif-bold"
-                    android:text="@string/neural_automation"
-                    android:textAllCaps="true"
-                    android:textColor="@color/text_primary"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/staleness_threshold"
-                    android:textColor="@color/text_primary" />
-
-                <RadioGroup
-                    android:id="@+id/rg_staleness"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rb_2days"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/threshold_2d" />
-
-                    <RadioButton
-                        android:id="@+id/rb_5days"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/threshold_5d" />
-
-                    <RadioButton
-                        android:id="@+id/rb_7days"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/threshold_7d" />
-                </RadioGroup>
 
                 <Button
                     android:id="@+id/btnLogout"
@@ -321,7 +304,6 @@
         app:layout_constraintBottom_toTopOf="@+id/navDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-
         <TextView
             android:id="@+id/txtAffirmation"
             android:layout_width="match_parent"
@@ -330,7 +312,7 @@
             android:fontFamily="sans-serif-medium"
             android:gravity="center_vertical"
             android:padding="20dp"
-            android:text="@string/neural_load_alert"
+            android:text="@string/workload_alert"
             android:textColor="@color/burnout_red_text"
             app:drawableStartCompat="@drawable/ic_alert"
             app:drawableTint="@color/burnout_red_text" />
@@ -343,7 +325,7 @@
         android:background="#99000000"
         android:visibility="gone"
         android:elevation="9dp"
-        android:clickable="false"
+        android:clickable="true"
         android:focusable="true" />
 
     <!-- Bottom Navigation Bar -->
