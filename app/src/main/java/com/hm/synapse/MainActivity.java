@@ -1,9 +1,7 @@
 package com.hm.synapse;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
@@ -14,9 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +26,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,8 +40,6 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.hm.synapse.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -196,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 2:
                 title.setText("Element Creation");
-                desc.setText("Tap the \u0027+\u0027 button to add headers, notes, tasks, or finance records.");
+                desc.setText("Tap the '+' button to add headers, notes, tasks, or finance records.");
                 anchor = binding.fabAdd;
                 bgResId = R.drawable.bg_speech_bubble_br;
                 xAdjustment = (int) (270 * density);
@@ -302,17 +295,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupAxonAI() {
-        String apiKey = "AIzaSyAYpd3V1N1t5WnrPfVvp4ozDivMzGX7HMA"; 
+        String apiKey = "AIzaSyAYpd3V1N1t5WnrPfVvp4ozDivMzGX7HMA";
         try {
-            GenerativeModel gm = new GenerativeModel("gemini-3.1-flash-lite-preview", apiKey);
+            // Using the stable 1.5 flash model
+            GenerativeModel gm = new GenerativeModel("gemini-1.5-flash", apiKey);
             axonModel = GenerativeModelFutures.from(gm);
         } catch (Exception e) {
             Log.e("Axon", "AI Init Failed");
         }
+
+        // Fix for the send button
         binding.btnSendAxon.setOnClickListener(v -> {
-            String prompt = binding.axonInput.getText().toString();
-            if (!prompt.isEmpty()) askAxon(prompt);
+            String prompt = binding.etAxonInput.getText().toString();
+            if (!prompt.isEmpty()) {
+                askAxon(prompt);
+                binding.etAxonInput.setText("");
+            }
         });
+    }
+
+    private void updateUIForTab() {
+        // Toggle visibility for all main containers
+        binding.taskRecycler.setVisibility(currentTab.equals("tasks") || currentTab.equals("kanban") ? View.VISIBLE : View.GONE);
+        binding.settingsContainer.setVisibility(currentTab.equals("settings") ? View.VISIBLE : View.GONE);
+        binding.financeSummaryCard.setVisibility(currentTab.equals("finance") ? View.VISIBLE : View.GONE);
+        binding.templatePlaceholder.setVisibility(currentTab.equals("templates") ? View.VISIBLE : View.GONE);
+
+        // Professional Title Mapping
+        switch (currentTab) {
+            case "finance": binding.workspaceTitle.setText("Financial Ledger"); break;
+            case "kanban": binding.workspaceTitle.setText("Strategic Flow"); break;
+            case "settings": binding.workspaceTitle.setText("System Configuration"); break;
+            case "templates": binding.workspaceTitle.setText("Workspace Blueprints"); break;
+            default: binding.workspaceTitle.setText("Primary Hub"); break;
+        }
+
+        filterBlocks();
     }
 
     private void askAxon(String prompt) {
@@ -339,15 +357,40 @@ public class MainActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         adapter = new MainAdapter(filteredBlocks, new MainAdapter.OnBlockInteractionListener() {
             @Override
-            public void onFinanceEdit(SynapseBlockEntity block) { showFinanceEditDialog(block); }
+            public void onFinanceEdit(SynapseBlockEntity block, MainAdapter.FinanceViewHolder holder) {
+                showFinanceEditDialog(block);
+            }
             @Override
             public void onContentChanged(SynapseBlockEntity block) { 
                 Executors.newSingleThreadExecutor().execute(() -> synapseDao.update(block)); 
             }
             @Override
-            public void onStatusChanged(SynapseBlockEntity block) { 
-                Executors.newSingleThreadExecutor().execute(() -> synapseDao.update(block)); 
-                if (block.isCompleted()) addExp(50);
+            public void onStatusChanged(SynapseBlockEntity block) {
+                // Find the existing block in local memory
+                SynapseBlockEntity tempFound = null;
+                for (SynapseBlockEntity b : allBlocks) {
+                    if (b.getId().equals(block.getId())) {
+                        tempFound = b;
+                        break;
+                    }
+                }
+                final SynapseBlockEntity existingInList = tempFound;
+                final boolean isFirstTime = block.isCompleted() && (existingInList == null || !existingInList.isCompleted());
+
+                Executors.newSingleThreadExecutor().execute(() -> {
+                    synapseDao.update(block);
+                    // Manually update local list to prevent "disappearing" bug
+                    if (existingInList != null) existingInList.setCompleted(block.isCompleted());
+
+                    runOnUiThread(() -> {
+                        if (isFirstTime && block.getType().equals("TODO")) {
+                            addExp(50);
+                            Toast.makeText(this, "Objective Accomplished +50 EXP", Toast.LENGTH_SHORT).show();
+                        }
+                        updateLevelUI();
+                        filterBlocks();
+                    });
+                });
             }
             @Override
             public void onDeleteBlock(SynapseBlockEntity block) {
@@ -497,12 +540,16 @@ public class MainActivity extends AppCompatActivity {
                 prefs.edit().putInt("theme_mode", mode).apply();
             }
         });
-        binding.rgStaleness.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.rb_2days) stalenessThreshold = 2;
-            else if (checkedId == R.id.rb_5days) stalenessThreshold = 5;
-            else if (checkedId == R.id.rb_7days) stalenessThreshold = 7;
-            prefs.edit().putInt("staleness_threshold", stalenessThreshold).apply();
-        });
+        // Fixing missing binding references for settings
+        // Ensuring ActivityMainBinding contains rgStaleness, rb2days etc. or removing logic if not present
+        if (binding.rgStaleness != null) {
+            binding.rgStaleness.setOnCheckedChangeListener((group, checkedId) -> {
+                if (checkedId == R.id.rb_2days) stalenessThreshold = 2;
+                else if (checkedId == R.id.rb_5days) stalenessThreshold = 5;
+                else if (checkedId == R.id.rb_7days) stalenessThreshold = 7;
+                prefs.edit().putInt("staleness_threshold", stalenessThreshold).apply();
+            });
+        }
     }
 
     private void applySavedTheme() {

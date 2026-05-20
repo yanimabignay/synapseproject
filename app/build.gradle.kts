@@ -30,11 +30,22 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    buildFeatures {
-        viewBinding = true
-        buildConfig = true
+
+        buildFeatures {
+            buildConfig = true
+        }
+
+        defaultConfig {
+            // Load properties safely
+            val properties = java.util.Properties()
+            val file = project.rootProject.file("local.properties")
+            if (file.exists()) properties.load(file.inputStream())
+
+            val apiKey = properties.getProperty("AIzaSyAYpd3V1N1t5WnrPfVvp4ozDivMzGX7HMA") ?: ""
+            buildConfigField("String", "AIzaSyAYpd3V1N1t5WnrPfVvp4ozDivMzGX7HMA", "\"$apiKey\"")
+        }
     }
-}
+
 
 dependencies {
     implementation(libs.appcompat)

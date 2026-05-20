@@ -23,7 +23,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final OnBlockInteractionListener listener;
 
     public interface OnBlockInteractionListener {
-        void onFinanceEdit(SynapseBlockEntity block, FinanceViewHolder financeViewHolder);
+        void onFinanceEdit(SynapseBlockEntity block, FinanceViewHolder holder);
         void onContentChanged(SynapseBlockEntity block);
         void onStatusChanged(SynapseBlockEntity block);
         void onDeleteBlock(SynapseBlockEntity block);
@@ -32,13 +32,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public MainAdapter(List<SynapseBlockEntity> blocks, OnBlockInteractionListener listener) {
         this.blocks = blocks;
         this.listener = listener;
-        setHasStableIds(true);
     }
 
-    @Override
-    public long getItemId(int position) {
-        return blocks.get(position).getId().hashCode();
-    }
     public void setStalenessThreshold(int threshold) {
         this.stalenessThreshold = threshold;
     }
@@ -100,24 +95,18 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() { return blocks.size(); }
 
-    static class HeaderViewHolder extends RecyclerView.ViewHolder {
+    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
         EditText et;
         HeaderViewHolder(View v) { super(v); et = v.findViewById(R.id.et_header); }
         void bind(SynapseBlockEntity b, OnBlockInteractionListener l) {
             et.setText(b.getContent());
-            if(b.getContent().isEmpty()){
-                et.requestFocus();
-            }
-
             et.setOnFocusChangeListener((v, hasFocus) -> {
-                if (!hasFocus) {
-                    b.setContent(et.getText().toString());
-                    l.onContentChanged(b); }
+                if (!hasFocus) { b.setContent(et.getText().toString()); l.onContentChanged(b); }
             });
         }
     }
 
-    static class TextViewHolder extends RecyclerView.ViewHolder {
+    public static class TextViewHolder extends RecyclerView.ViewHolder {
         EditText et;
         TextViewHolder(View v) { super(v); et = v.findViewById(R.id.et_text); }
         void bind(SynapseBlockEntity b, OnBlockInteractionListener l) {
@@ -128,7 +117,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    static class TodoViewHolder extends RecyclerView.ViewHolder {
+    public static class TodoViewHolder extends RecyclerView.ViewHolder {
         CheckBox cb; EditText et;
         TodoViewHolder(View v) { super(v); cb = v.findViewById(R.id.checkbox); et = v.findViewById(R.id.et_todo); }
         void bind(SynapseBlockEntity b, OnBlockInteractionListener l) {
@@ -138,12 +127,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             updateStrikethrough(b.isCompleted());
             
             cb.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if(buttonView.isPressed()) {
-                    b.setCompleted(isChecked);
-                    l.onStatusChanged(b);
-                    updateStrikethrough(isChecked);
-                }
-
+                b.setCompleted(isChecked);
+                updateStrikethrough(isChecked);
+                l.onStatusChanged(b);
             });
 
             et.setOnFocusChangeListener((v, hasFocus) -> {
@@ -162,29 +148,17 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    static class FinanceViewHolder extends RecyclerView.ViewHolder {
-        TextView cat, amt, date;
-        FinanceViewHolder(View v) {
-            super(v);
-            cat = v.findViewById(R.id.tv_category);
-            amt = v.findViewById(R.id.tv_amount);
-            date = v.findViewById(R.id.tv_date);
-        }
+    public static class FinanceViewHolder extends RecyclerView.ViewHolder {
+        TextView cat, amt;
+        FinanceViewHolder(View v) { super(v); cat = v.findViewById(R.id.tv_category); amt = v.findViewById(R.id.tv_amount); }
         void bind(SynapseBlockEntity b, OnBlockInteractionListener l) {
-            itemView.setOnClickListener(v -> l.onFinanceEdit(b, this));
             cat.setText(b.getContent());
-            date.setText(String.format("%02d", b.getMonth()) + "/" + String.format("%02d", b.getDay()) + "/" + String.format("%02d", b.getYear()));
             amt.setText(String.format("$%.2f", b.getAmount()));
-
-            if (b.getAmount() < 0) {
-                amt.setTextColor(Color.RED);
-            } else {
-                amt.setTextColor(Color.GREEN);
-            }
+            itemView.setOnClickListener(v -> l.onFinanceEdit(b, this));
         }
     }
 
-    static class AIViewHolder extends RecyclerView.ViewHolder {
+    public static class AIViewHolder extends RecyclerView.ViewHolder {
         TextView tv;
         AIViewHolder(View v) { super(v); tv = v.findViewById(R.id.tv_suggestion); }
         void bind(SynapseBlockEntity b) { tv.setText(b.getContent()); }

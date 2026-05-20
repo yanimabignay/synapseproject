@@ -129,6 +129,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- Content Viewport -->
     <FrameLayout
         android:id="@+id/content_container"
         android:layout_width="0dp"
@@ -146,7 +147,7 @@
             android:paddingHorizontal="16dp"
             android:paddingBottom="80dp" />
 
-        <!-- AI Window -->
+        <!-- Assistant Console -->
         <LinearLayout
             android:id="@+id/axonAiContainer"
             android:layout_width="match_parent"
@@ -158,7 +159,9 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/card_bg"
+                android:padding="12dp">
                 <TextView
                     android:id="@+id/axonResponseText"
                     android:layout_width="match_parent"
@@ -166,7 +169,7 @@
                     android:fontFamily="sans-serif"
                     android:textColor="@color/text_primary"
                     android:textSize="16sp"
-                    android:text="Ask Axon anything about your workspace..."/>
+                    android:text="Assistant is online. How can I help you today?"/>
             </ScrollView>
 
             <LinearLayout
@@ -179,53 +182,58 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Type your prompt..."
-                    android:background="@drawable/bg_input_field"
-                    android:padding="12dp" />
+                    android:hint="Message Assistant..."
+                    android:padding="12dp"
+                    android:background="@android:color/transparent"/>
                 <ImageButton
                     android:id="@+id/btnSendAxon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_marginStart="8dp"
                     android:src="@android:drawable/ic_menu_send"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:tint="@color/brand_primary" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Templates coming soon -->
-        <RelativeLayout
+        <!-- Templates View -->
+        <LinearLayout
             android:id="@+id/templatesContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
             android:visibility="gone">
+
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@android:drawable/ic_lock_lock"
-                android:alpha="0.05"
-                android:scaleType="centerCrop"/>
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_lock_padlock"
+                android:alpha="0.2"
+                app:tint="@color/text_primary"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/templates_coming_soon"
-                android:textSize="20sp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="sans-serif-black"
-                android:textColor="@color/text_primary"/>
-        </RelativeLayout>
+                android:text="@string/templates_coming_soon"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp" />
+        </LinearLayout>
 
+        <!-- Settings View -->
         <ScrollView
             android:id="@+id/settingsContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">
-            <!-- Existing settings content -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="24dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -269,7 +277,7 @@
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/btn_manage_users"
+                    android:id="@+id/btnManageUsers"
                     style="@style/Widget.Material3.Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -277,6 +285,53 @@
                     android:padding="16dp"
                     android:text="@string/database_management"
                     app:icon="@android:drawable/ic_menu_edit" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:alpha="0.7"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="@string/process_automation"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_primary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/activity_threshold"
+                    android:textColor="@color/text_primary" />
+
+                <RadioGroup
+                    android:id="@+id/rgStaleness"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb2Days"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/threshold_2d" />
+
+                    <RadioButton
+                        android:id="@+id/rb5Days"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/threshold_5d" />
+
+                    <RadioButton
+                        android:id="@+id/rb7Days"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/threshold_7d" />
+                </RadioGroup>
 
                 <Button
                     android:id="@+id/btnLogout"
@@ -291,7 +346,7 @@
         </ScrollView>
     </FrameLayout>
 
-    <!-- Burnout Alert -->
+    <!-- Workload Alert -->
     <androidx.cardview.widget.CardView
         android:id="@+id/burnoutAlert"
         android:layout_width="0dp"
